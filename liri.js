@@ -25,6 +25,10 @@ switch(liri){
 		getMovie();
 		break;
 
+	case "do-what-it-says":
+		doThis();
+		break;
+
 }
 
 
@@ -89,4 +93,15 @@ function getMovie(){
 	    }
 	})
 }
-                
+
+function doThis() {
+	fs.readFile("random.txt", "utf-8", function(error, data) {
+		if (!error){
+			doWhatResults = data.split(",");
+			spotifyThis(doWhatResults[0], doWhatResults[1]);
+		}
+		else {
+			console.log("error occurred" + error);
+		}
+	});
+}                
