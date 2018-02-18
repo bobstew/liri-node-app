@@ -15,8 +15,14 @@ switch(liri){
 		break;
 	case "spotify-this-song": 
 		var songName = process.argv[3];
-		// if () 
+		if (!songName){
+			songName = "The Sign";
+		} 
 		spotifyThis(songName); 
+		break;
+	case "movie-this":
+		
+		getMovie();
 		break;
 
 }
@@ -58,13 +64,29 @@ function spotifyThis(songName){
   			console.log(songInfo.name)
   			console.log(songInfo.preview_url)
   			console.log(songInfo.album.name)
-  			
-  				
-
- 
-			
 		}
 	});
 
 }
 
+function getMovie(){
+    var movie = process.argv[3];
+    if(!movie){
+        movie = "mr nobody";
+    }
+    
+    request("http://www.omdbapi.com/?t=" + movie + "&apikey=53a0f854", function(error, response, body) { 
+        if (!error && response.statusCode === 200) {
+	        var movieObj = JSON.parse(body);
+	        console.log("Title: " + movieObj.Title);
+	        console.log("Year of Release: " + movieObj.Year);
+	        console.log("IMDB Rating: " + movieObj.imdbRating);
+	        console.log("Rotten Tomatoes Rating: " + movieObj.Ratings[1].Value);
+	        console.log("Countries Produced: " + movieObj.Production);
+	        console.log("Language: " + movieObj.Language);
+	        console.log("Plot: " + movieObj.Plot);
+	        console.log("Cast: " + movieObj.Actors);
+	    }
+	})
+}
+                
